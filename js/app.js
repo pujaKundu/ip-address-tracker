@@ -10,10 +10,32 @@ L.marker([51.5, -0.09]).addTo(map)
 
 //fetch api data
 const loadData = () => {
-    //ip address dynamic banaw
-    const url = `https://geo.ipify.org/api/v1?apiKey=at_hVZyHlbap4Eyq0qZ3pSyFRFKk5AJm&ipAddress=8.8.8.8`;
+    const searchField = document.getElementById('search-field');
+    const searchedIP = searchField.value;
+    console.log(`serched ip : ${searchedIP}`)
+    const url = `https://geo.ipify.org/api/v1?apiKey=at_hVZyHlbap4Eyq0qZ3pSyFRFKk5AJm&ipAddress=${searchedIP}`;
     fetch(url)
         .then(res => res.json())
-        .then(data => console.log(data));
+        .then(data => displayData(data));
 }
 loadData();
+const displayData = ip => {
+    console.log(ip);
+
+    const ipAddressContainer = document.getElementById('ip-address');
+    ipAddressContainer.innerText = `${ip.ip}`;
+    const ipLocation = document.getElementById('ip-location');
+    ipLocation.innerText = `${ip.location.city},${ip.location.country}`;
+    const ipTimezone = document.getElementById('ip-timezone');
+    ipTimezone.innerText = `${ip.location.timezone}`;
+    const isp = document.getElementById('isp');
+    isp.innerText = `${ip.isp}`;
+    //update ip on map
+    L.marker([51.5, -0.09]).addTo(map)
+        .bindPopup(`${ip.ip}`)
+        .openPopup();
+
+}
+
+//update map
+const updateMap
