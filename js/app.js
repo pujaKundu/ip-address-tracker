@@ -1,13 +1,3 @@
-var map = L.map('map').setView([51.505, -0.09], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
-
 //fetch api data
 const loadData = () => {
     const searchField = document.getElementById('search-field');
@@ -17,10 +7,12 @@ const loadData = () => {
     fetch(url)
         .then(res => res.json())
         .then(data => displayData(data));
+
+
 }
 loadData();
+
 const displayData = ip => {
-    console.log(ip);
 
     const ipAddressContainer = document.getElementById('ip-address');
     ipAddressContainer.innerText = `${ip.ip}`;
@@ -30,12 +22,24 @@ const displayData = ip => {
     ipTimezone.innerText = `${ip.location.timezone}`;
     const isp = document.getElementById('isp');
     isp.innerText = `${ip.isp}`;
-    //update ip on map
-    L.marker([51.5, -0.09]).addTo(map)
-        .bindPopup(`${ip.ip}`)
-        .openPopup();
+    //build map
+    const ipAddress = `${ip.ip}`;
+    const lat = ip.location.lat;
+    const lng = ip.location.lng;
+
+    buildMap(lat, lng, ipAddress);
 
 }
 
-//update map
-const updateMap
+function buildMap(lat, lng, ip) {
+    document.getElementById('mapUI').innerHTML =
+        "<div id='map' style='width: 100%; height: 500px;'></div>";
+    var map = L.map('map').setView([lat, lng], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    L.marker([lat, lng]).addTo(map)
+        .bindPopup(ip)
+        .openPopup();
+
+}
