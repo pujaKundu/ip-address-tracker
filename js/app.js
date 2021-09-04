@@ -2,6 +2,7 @@
 const loadData = () => {
     const searchField = document.getElementById('search-field');
     const searchedIP = searchField.value;
+    searchField.value = '';
     console.log(`serched ip : ${searchedIP}`)
     const url = `https://geo.ipify.org/api/v1?apiKey=at_hVZyHlbap4Eyq0qZ3pSyFRFKk5AJm&ipAddress=${searchedIP}`;
     fetch(url)
@@ -33,7 +34,7 @@ const displayData = ip => {
 
 function buildMap(lat, lng, ip) {
     document.getElementById('mapUI').innerHTML =
-        "<div id='map' style='width: 100%; height: 500px;'></div>";
+        "<div id='map' style='width: 100%; height: 100%;'></div>";
     var map = L.map('map').setView([lat, lng], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
