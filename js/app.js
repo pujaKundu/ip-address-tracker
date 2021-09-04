@@ -2,8 +2,9 @@
 const loadData = () => {
     const searchField = document.getElementById('search-field');
     const searchedIP = searchField.value;
+    //clear search field
     searchField.value = '';
-    console.log(`serched ip : ${searchedIP}`)
+
     const url = `https://geo.ipify.org/api/v1?apiKey=at_hVZyHlbap4Eyq0qZ3pSyFRFKk5AJm&ipAddress=${searchedIP}`;
     fetch(url)
         .then(res => res.json())
